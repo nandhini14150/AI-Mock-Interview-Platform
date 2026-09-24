@@ -23,34 +23,16 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(
                 corsConfigurationSource()
             ))
-
             .csrf(csrf -> csrf.disable())
-
             .authorizeHttpRequests(auth -> auth
-
-                // Authentication APIs
-                .requestMatchers("/api/auth/**")
-                .permitAll()
-
-                // Interview / Questions APIs
-                .requestMatchers("/api/interview/**")
-                .permitAll()
-
-                // Answer Evaluation APIs
-                .requestMatchers("/api/evaluation/**")
-                .permitAll()
-
-                // Interview Results APIs
-                .requestMatchers("/api/results/**")
-                .permitAll()
-
-                // Error page
-                .requestMatchers("/error")
-                .permitAll()
-
-                // Everything else requires authentication
-                .anyRequest()
-                .authenticated()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/interview/**").permitAll()
+                .requestMatchers("/api/evaluation/**").permitAll()
+                .requestMatchers("/api/results/**").permitAll()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/**").permitAll()
+                .anyRequest().permitAll()
             );
 
         return http.build();
@@ -65,37 +47,33 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration =
-            new CorsConfiguration();
+                new CorsConfiguration();
 
-        configuration.setAllowedOrigins(
-            List.of(
+        configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "http://localhost:5174"
-            )
-        );
+                "http://localhost:5174",
+                "https://ai-mock-interview-platform-1prvnpfyg.vercel.app",
+                "https://ai-mock-interview-platform-5-jycy.onrender.com"
+        ));
 
-        configuration.setAllowedMethods(
-            List.of(
+        configuration.setAllowedMethods(List.of(
                 "GET",
                 "POST",
                 "PUT",
                 "DELETE",
                 "OPTIONS"
-            )
-        );
+        ));
 
-        configuration.setAllowedHeaders(
-            List.of("*")
-        );
+        configuration.setAllowedHeaders(List.of("*"));
 
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
-            new UrlBasedCorsConfigurationSource();
+                new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration(
-            "/**",
-            configuration
+                "/**",
+                configuration
         );
 
         return source;
