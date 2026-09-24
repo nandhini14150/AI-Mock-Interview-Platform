@@ -16,20 +16,17 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .cors(cors -> cors.configurationSource(
-                corsConfigurationSource()
-            ))
             .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/interview/**").permitAll()
-                .requestMatchers("/api/evaluation/**").permitAll()
-                .requestMatchers("/api/results/**").permitAll()
-                .requestMatchers("/error").permitAll()
+                .requestMatchers("/index.html").permitAll()
+                .requestMatchers("/assets/**").permitAll()
+                .requestMatchers("/favicon.svg").permitAll()
+                .requestMatchers("/icons.svg").permitAll()
+                .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/**").permitAll()
                 .anyRequest().permitAll()
@@ -46,35 +43,30 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration configuration =
-                new CorsConfiguration();
+        CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "http://localhost:5174",
-                "https://ai-mock-interview-platform-1prvnpfyg.vercel.app",
-                "https://ai-mock-interview-platform-5-jycy.onrender.com"
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "https://ai-mock-interview-platform-1prvnpfyg.vercel.app",
+            "https://ai-mock-interview-platform-5-jycy.onrender.com"
         ));
 
         configuration.setAllowedMethods(List.of(
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "OPTIONS"
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "OPTIONS"
         ));
 
         configuration.setAllowedHeaders(List.of("*"));
-
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
+            new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration(
-                "/**",
-                configuration
-        );
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
