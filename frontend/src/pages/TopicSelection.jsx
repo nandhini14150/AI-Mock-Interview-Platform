@@ -23,7 +23,7 @@ function TopicSelection() {
       setError("");
 
       const response = await fetch(
-        `http://localhost:8080/api/interview/questions/category/${encodeURIComponent(category)}`
+        `https://ai-mock-interview-platform-5-jycy.onrender.com/api/interview/questions/category/${encodeURIComponent(category)}`
       );
 
       if (!response.ok) {

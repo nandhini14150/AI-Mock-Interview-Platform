@@ -38,7 +38,7 @@ function Dashboard() {
       }
 
       const response = await fetch(
-        `http://localhost:8080/api/results/user/${userId}`
+        `https://ai-mock-interview-platform-5-jycy.onrender.com/api/results/user/${userId}`
       );
 
       if (!response.ok) {

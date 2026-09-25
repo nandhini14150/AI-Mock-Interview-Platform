@@ -52,23 +52,23 @@ function Interview() {
 
       if (selectedTopic && selectedDifficulty) {
         url =
-          `http://localhost:8080/api/interview/questions/category/` +
+          `https://ai-mock-interview-platform-5-jycy.onrender.com/api/interview/questions/category/` +
           `${encodeURIComponent(selectedCategory)}/topic/` +
           `${encodeURIComponent(selectedTopic)}/difficulty/` +
           `${encodeURIComponent(selectedDifficulty)}`;
       } else if (selectedDifficulty) {
         url =
-          `http://localhost:8080/api/interview/questions/category/` +
+          `https://ai-mock-interview-platform-5-jycy.onrender.com/api/interview/questions/category/` +
           `${encodeURIComponent(selectedCategory)}/difficulty/` +
           `${encodeURIComponent(selectedDifficulty)}`;
       } else if (selectedTopic) {
         url =
-          `http://localhost:8080/api/interview/questions/category/` +
+          `https://ai-mock-interview-platform-5-jycy.onrender.com/api/interview/questions/category/` +
           `${encodeURIComponent(selectedCategory)}/topic/` +
           `${encodeURIComponent(selectedTopic)}`;
       } else {
         url =
-          `http://localhost:8080/api/interview/questions/category/` +
+          `https://ai-mock-interview-platform-5-jycy.onrender.com/api/interview/questions/category/` +
           `${encodeURIComponent(selectedCategory)}`;
       }
 
@@ -134,7 +134,7 @@ function Interview() {
       setError("");
 
       const response = await fetch(
-        "http://localhost:8080/api/evaluation/evaluate",
+        "https://ai-mock-interview-platform-5-jycy.onrender.com/api/evaluation/evaluate",
         {
           method: "POST",
           headers: {
@@ -259,7 +259,7 @@ function Interview() {
       );
 
       const response = await fetch(
-        "http://localhost:8080/api/results/save",
+        "https://ai-mock-interview-platform-5-jycy.onrender.com/api/results/save",
         {
           method: "POST",
           headers: {

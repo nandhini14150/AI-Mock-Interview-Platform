@@ -31,7 +31,7 @@ function Register() {
 
         try {
             const response = await fetch(
-                "http://localhost:8080/api/auth/register",
+                "https://ai-mock-interview-platform-5-jycy.onrender.com/api/auth/register",
                 {
                     method: "POST",
                     headers: {
