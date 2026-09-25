@@ -8,29 +8,19 @@ import java.time.LocalDateTime;
 public class InterviewResult {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;
-
     private String category;
-
     private String topic;
-
     private String difficulty;
-
     private Integer score;
-
     private Integer maximumScore;
-
     private Integer percentage;
-
     private Integer totalQuestions;
-
     private LocalDateTime completedAt;
 
-    public InterviewResult() {
-    }
+    public InterviewResult() {}
 
     public Long getId() {
         return id;

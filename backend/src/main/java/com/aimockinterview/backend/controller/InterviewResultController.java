@@ -19,51 +19,41 @@ public class InterviewResultController {
 
     private final InterviewResultRepository resultRepository;
 
-    public InterviewResultController(
-            InterviewResultRepository resultRepository) {
+    public InterviewResultController(InterviewResultRepository resultRepository) {
         this.resultRepository = resultRepository;
     }
 
-    // Save completed interview result
     @PostMapping("/save")
-    public ResponseEntity<?> saveResult(
-            @RequestBody InterviewResult result) {
+    public ResponseEntity<?> saveResult(@RequestBody InterviewResult result) {
 
         if (result.getUserId() == null) {
-            return ResponseEntity.badRequest()
-                    .body("User ID is required");
+            return ResponseEntity.badRequest().body("User ID is required");
         }
 
-        if (result.getCategory() == null ||
-                result.getCategory().trim().isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body("Category is required");
+        if (result.getCategory() == null || result.getCategory().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Category is required");
         }
 
-        if (result.getScore() == null ||
-                result.getMaximumScore() == null) {
-            return ResponseEntity.badRequest()
-                    .body("Score information is required");
+        if (result.getScore() == null || result.getMaximumScore() == null) {
+            return ResponseEntity.badRequest().body("Score information is required");
         }
 
         if (result.getMaximumScore() <= 0) {
-            return ResponseEntity.badRequest()
-                    .body("Maximum score must be greater than 0");
+            return ResponseEntity.badRequest().body("Maximum score must be greater than 0");
         }
 
-        // Calculate percentage
+        // Generate ID manually because TiDB table has no AUTO_INCREMENT
+        Long nextId = resultRepository.findMaxId() + 1;
+        result.setId(nextId);
+
         int percentage = Math.round(
-                (result.getScore() * 100.0f)
-                        / result.getMaximumScore()
+                (result.getScore() * 100.0f) / result.getMaximumScore()
         );
 
         result.setPercentage(percentage);
-
-        // Set completion time
         result.setCompletedAt(LocalDateTime.now());
 
-        InterviewResult savedResult =
-                resultRepository.save(result);
+        InterviewResult savedResult = resultRepository.save(result);
 
         return ResponseEntity.ok(
                 Map.of(
@@ -76,14 +66,12 @@ public class InterviewResultController {
         );
     }
 
-    // Get interview history for a user
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<InterviewResult>> getUserResults(
             @PathVariable Long userId) {
 
         List<InterviewResult> results =
-                resultRepository
-                        .findByUserIdOrderByCompletedAtDesc(userId);
+                resultRepository.findByUserIdOrderByCompletedAtDesc(userId);
 
         return ResponseEntity.ok(results);
     }
